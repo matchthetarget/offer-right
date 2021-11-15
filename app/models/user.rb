@@ -1,32 +1,31 @@
 class User < ApplicationRecord
-  
   include JwtToken
-# Direct associations
+  # Direct associations
 
   has_many   :bought_items,
-             :class_name => "Item",
-             :foreign_key => "buyer_id",
-             :dependent => :destroy
+             class_name: "Item",
+             foreign_key: "buyer_id",
+             dependent: :destroy
 
   has_many   :recieved_messages,
-             :class_name => "Message",
-             :foreign_key => "recipient_id",
-             :dependent => :destroy
+             class_name: "Message",
+             foreign_key: "recipient_id",
+             dependent: :destroy
 
   has_many   :sent_messages,
-             :class_name => "Message",
-             :foreign_key => "sender_id",
-             :dependent => :destroy
+             class_name: "Message",
+             foreign_key: "sender_id",
+             dependent: :destroy
 
   has_many   :items,
-             :foreign_key => "seller_id",
-             :dependent => :destroy
+             foreign_key: "seller_id",
+             dependent: :destroy
 
   # Indirect associations
 
   # Validations
 
-  validates :name, :presence => true
+  validates :name, presence: true
 
   # Scopes
 

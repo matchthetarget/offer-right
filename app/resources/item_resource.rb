@@ -24,5 +24,4 @@ class ItemResource < ApplicationResource
              resource: UserResource
 
   # Indirect associations
-
 end

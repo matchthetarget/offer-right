@@ -6,13 +6,13 @@ class Item < ApplicationRecord
   belongs_to :category
 
   has_many   :messages,
-             :dependent => :destroy
+             dependent: :destroy
 
   belongs_to :buyer,
-             :class_name => "User"
+             class_name: "User"
 
   belongs_to :seller,
-             :class_name => "User"
+             class_name: "User"
 
   # Indirect associations
 
@@ -23,5 +23,4 @@ class Item < ApplicationRecord
   def to_s
     title
   end
-
 end
