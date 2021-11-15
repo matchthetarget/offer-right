@@ -17,7 +17,11 @@
 
       <dt>Seller</dt>
       <!-- Display seller_id start -->
-      <dd><%= item.seller_id %></dd>
+      <dd>
+        <% if @item.seller.present? %>
+          <%= link_to item.seller, item.seller %>
+        <% end %>
+      </dd>
       <!-- Display seller_id end -->
 
       <dt>Description</dt>
@@ -27,7 +31,11 @@
 
       <dt>Category</dt>
       <!-- Display category_id start -->
-      <dd><%= item.category_id %></dd>
+      <dd>
+        <% if @item.category.present? %>
+          <%= link_to item.category, item.category %>
+        <% end %>
+      </dd>
       <!-- Display category_id end -->
 
       <dt>Location</dt>
@@ -37,7 +45,11 @@
 
       <dt>Buyer</dt>
       <!-- Display buyer_id start -->
-      <dd><%= item.buyer_id %></dd>
+      <dd>
+        <% if @item.buyer.present? %>
+          <%= link_to item.buyer, item.buyer %>
+        <% end %>
+      </dd>
       <!-- Display buyer_id end -->
 
       <dt>Image</dt>
