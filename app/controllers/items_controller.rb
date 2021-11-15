@@ -5,7 +5,8 @@ class ItemsController < ApplicationController
 
   # GET /items
   def index
-    @items = Item.page(params[:page]).per(10)
+    @q = Item.ransack(params[:q])
+    @items = @q.result(:distinct => true).includes(:seller, :buyer, :messages, :category).page(params[:page]).per(10)
   end
 
   # GET /items/1
