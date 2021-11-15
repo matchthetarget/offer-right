@@ -23,13 +23,9 @@
   <!-- Label and input for price end -->
 
   <!-- Label and input for seller_id start -->
-  <div class="form-group">
-    <%= f.label :seller_id %>
-
-    <!-- Input for seller_id start -->
-    <%= f.collection_select :seller_id, User.all, :id, :to_s, {}, class: "form-control" %>
-    <!-- Input for seller_id end -->
-  </div>
+  <!-- Input for "seller_id" start -->
+  <%= f.hidden_field :seller_id, value: current_user.id %>
+  <!-- Input for "seller_id" end -->
   <!-- Label and input for seller_id end -->
 
   <!-- Label and input for description start -->
