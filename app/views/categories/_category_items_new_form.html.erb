@@ -27,7 +27,7 @@
     <%= f.label :seller_id %>
 
     <!-- Input for seller_id start -->
-    <%= f.text_field :seller_id, class: "form-control" %>
+    <%= f.collection_select :seller_id, User.all, :id, :to_s, {}, class: "form-control" %>
     <!-- Input for seller_id end -->
   </div>
   <!-- Label and input for seller_id end -->
