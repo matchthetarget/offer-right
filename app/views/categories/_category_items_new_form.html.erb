@@ -62,7 +62,7 @@
     <%= f.label :buyer_id %>
 
     <!-- Input for buyer_id start -->
-    <%= f.text_field :buyer_id, class: "form-control" %>
+    <%= f.collection_select :buyer_id, User.all, :id, :to_s, {}, class: "form-control" %>
     <!-- Input for buyer_id end -->
   </div>
   <!-- Label and input for buyer_id end -->

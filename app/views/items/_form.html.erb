@@ -172,7 +172,7 @@
 
     <%= f.label :buyer_id %>
     <!-- Input for buyer_id start -->
-    <%= f.number_field :buyer_id, class: buyer_class, placeholder: "Enter buyer" %>
+    <%= f.collection_select :buyer_id, User.all, :id, :to_s, {}, class: "form-control" %>
     <!-- Input for buyer_id end -->
     <% if buyer_was_invalid %>
       <% item.errors.full_messages_for(:buyer).each do |message| %>
