@@ -3,11 +3,11 @@ namespace :dev do
   task prime: :environment do
     User.destroy_all
     users = [
-      {id: 81, name: "alice", phone_number: "+1234567890", email: "alice@example.com", created_at: "2014-09-23 01:03:23", updated_at: "2019-10-08 10:25:00"},
-      {id: 82, name: "judith", phone_number: "+1234567890", email: "judith@example.com", created_at: "2014-08-02 12:55:21", updated_at: "2019-10-08 10:25:00"},
-      {id: 83, name: "bob", phone_number: "+1234567890", email: "bob@example.com", created_at: "2018-03-05 07:37:08", updated_at: "2019-10-08 10:25:00"},
-      {id: 84, name: "carol", phone_number: "+1234567890", email: "carol@example.com", created_at: "2015-05-29 04:13:06", updated_at: "2019-10-08 10:25:00"},
-      {id: 85, name: "osi", phone_number: "+1234567890", email: "osi@example.com", created_at: "2015-05-29 04:13:06", updated_at: "2019-10-08 10:25:00"}
+      {id: 81, name: "alice", phone_number: "", email: "alice@example.com", created_at: "2014-09-23 01:03:23", updated_at: "2019-10-08 10:25:00"},
+      {id: 82, name: "judith", phone_number: "", email: "judith@example.com", created_at: "2014-08-02 12:55:21", updated_at: "2019-10-08 10:25:00"},
+      {id: 83, name: "bob", phone_number: "", email: "bob@example.com", created_at: "2018-03-05 07:37:08", updated_at: "2019-10-08 10:25:00"},
+      {id: 84, name: "carol", phone_number: "", email: "carol@example.com", created_at: "2015-05-29 04:13:06", updated_at: "2019-10-08 10:25:00"},
+      {id: 85, name: "osi", phone_number: "", email: "osi@example.com", created_at: "2015-05-29 04:13:06", updated_at: "2019-10-08 10:25:00"}
     ]
     User.insert_all!(users)
 
