@@ -21,7 +21,8 @@ class MessagesController < ApplicationController
     if @message.save
       message = "Message was successfully created."
       if Rails.application.routes.recognize_path(request.referer)[:controller] != Rails.application.routes.recognize_path(request.path)[:controller]
-        redirect_back fallback_location: request.referer, notice: message
+        # redirect_back fallback_location: request.referer, notice: message
+        redirect_to @message.sender, notice: message
       else
         redirect_to @message, notice: message
       end

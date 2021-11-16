@@ -1,29 +1,37 @@
 <div class="card">
   <div class="card-header d-flex align-items-center justify-content-between">
-    Messages
-
-    <a data-toggle="collapse" href="#item_messages_new_form">
-      Add message
-    </a>
+    Contact
   </div>
 
-  <ul class="list-group list-group-flush">
-    <% @item.messages.each do |message| %>
-      <li class="list-group-item d-flex align-items-center justify-content-between">
-        <%= link_to message, message %>
+  <div class="card-footer">
+    <%= form_with(model: Message.new, local: true, novalidate: true, class: "mb-3") do |f| %>
 
-        <%= link_to message, method: :delete, data: { confirm: "Do you really want to delete this message" } do %>
-          <i class="fas fa-trash-alt"></i>
+      <%= f.hidden_field :sender_id, value: current_user.id %>
+      <%= f.hidden_field :item_id, value: @item.id %>
+      <%= f.hidden_field :recipient_id, value: @item.seller.id %>
+      <div class="form-group">
+        <% body_class = "form-control" %>
+        <% body_was_invalid = Message.new.errors.include?(:body) %>
+
+        <% if false %>
+          <% if body_was_invalid %>
+            <% body_class << " is-invalid" %>
+          <% else %>
+            <% body_class << " is-valid" %>
+          <% end %>
         <% end %>
 
-      </li>
-    <% end %>
-
-    <div class="card-footer">
-      <div class="collapse" id="item_messages_new_form">
-        <%= render partial: "items/item_messages_new_form" %>
+        <%= f.label :body, class: "sr-only" %>
+        <%= f.text_area :body, class: body_class, placeholder: "Contact #{@item.seller.name}" %>
+        <% if body_was_invalid %>
+          <% message.errors.full_messages_for(:body).each do |message| %>
+            <div class="invalid-feedback d-flex">
+              <%= message %>
+            </div>
+          <% end %>
+        <% end %>
       </div>
-    </div>
-
-  </ul>
+      <%= f.button class: "btn btn-outline-secondary btn-block" %>
+    <% end %>
+  </div>
 </div>

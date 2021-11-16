@@ -1,78 +1,46 @@
-<div class="card mb-3">
-  <h2 class="card-header h4">
-    Item #<%= item.id %>
-  </h2>
-
+<div class="card">
+  <%= cl_image_tag @item.image, class: "img-fluid" %>
   <div class="card-body">
-    <dl class="mb-1">
-      <dt>Title</dt>
-      <dd><%= item.title %></dd>
-
-      <dt>Price</dt>
-      <dd><%= item.price %></dd>
-
-      <dt>Seller</dt>
-      <dd>
-        <% if @item.seller.present? %>
-          <%= link_to item.seller, item.seller %>
-        <% end %>
-      </dd>
-
-      <dt>Description</dt>
-      <dd><%= item.description %></dd>
-
-      <dt>Category</dt>
-      <dd>
-        <% if @item.category.present? %>
-          <%= link_to item.category, item.category %>
-        <% end %>
-      </dd>
-
-      <dt>Location</dt>
-      <dd>
+    <h5 class="card-title"><%= item.title %> - <%= number_to_currency item.price %></h5>
+    <p class="card-text"><small class="text-muted">Posted <%= time_ago_in_words(item.created_at) %> ago</small></p>
+    <p class="card-text d-flex justify-content-between"><%= link_to item.category, item.category %>
+      <% if current_user == item.seller %>
         <div>
-          <%= render partial: "items/one_photo_map" %>
-        </div>
-      </dd>
-
-      <dt>Buyer</dt>
-      <dd>
-        <% if @item.buyer.present? %>
-          <%= link_to item.buyer, item.buyer %>
-        <% end %>
-      </dd>
-
-      <dt>Image</dt>
-      <dd>
-        <%= cl_image_tag @item.image, class: "img-fluid" %>
-      </dd>
-
-    </dl>
-
-    <div class="row">
-      <div class="col">
-        <%= link_to_show_or_back item, '<i class="fas fa-search-plus"></i>'.html_safe, '<i class="fas fa-chevron-left"></i>'.html_safe, class: "btn btn-block btn-outline-secondary" %>
-      </div>
-
-      <div class="col">
-        <% if current_user == @item.seller %>
-          <%= link_to edit_item_url(item), class: "btn btn-block btn-sm btn-outline-secondary" do %>
+          <%= link_to edit_item_url(item), class: "btn btn-outline-secondary" do %>
             <i class="fas fa-edit"></i>
           <% end %>
-        <% end %>
-      </div>
-
-      <div class="col">
-        <% if current_user == @item.seller %>
-          <%= link_to item, method: :delete, data: { confirm: "Do you really want to delete this item?" }, class: "btn btn-block btn-outline-secondary" do %>
+          <%= link_to item, method: :delete, data: { confirm: "Do you really want to delete this item?" }, class: "btn btn-outline-secondary" do %>
             <i class="fas fa-trash-alt"></i>
           <% end %>
+        </div>
+        <% if item.buyer.present? %>
+          <%= form_with(model: item, local: true, novalidate: true, class: "mb-3") do |f| %>
+            <%= f.hidden_field :buyer_id, value: nil %>
+            <%= f.button "Unmark #{item.buyer.name} as Buyer", class: "btn btn-outline-secondary" %>
+          <% end %>
         <% end %>
-      </div>
+      <% end %>
+    </p>
+  </div>
+  <div class="media my-4 mx-1">
+    <img src="https://images.fandango.com/cms/assets/a2f0b9d0-cf84-11eb-a507-3be98bb99253--actordefaulttmb.gif" class="mr-3 rounded-circle" alt="user-profile-picture">
+    <div class="media-body">
+      <%= link_to item.seller do %>
+        <h5 class="mt-0 d-flex justify-content-between pr-5 text-decoration-none"><%= item.seller %><i class="fas fa-chevron-right"></i></h5>
+        <p><small class="text-muted">Member since <%= item.seller.created_at.strftime("%B %Y") %></small></p>
+      <% end %>
     </div>
   </div>
-
-  <div class="card-footer text-muted">
-    Last updated <%= time_ago_in_words(item.updated_at) %> ago
+  <div class="card-body">
+    <% if item.buyer.present? %>
+    <h4>SOLD!</h4>
+    <% end %>
+    <p><%= item.description %></p>
+    <dt>Location</dt>
+    <dd>
+      <div>
+        <%= render partial: "items/one_photo_map" %>
+      </div>
+    </dd>
   </div>
 </div>

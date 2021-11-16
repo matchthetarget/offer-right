@@ -9,7 +9,7 @@ gem "rails", "~> 6.0.2", ">= 6.0.2.2"
 group :development do
   gem "sqlite3"
 end
-
+gem "twilio-ruby"
 group :production do
   gem "pg"
 end

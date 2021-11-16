@@ -1,23 +1,24 @@
 <%= form_with(model: @message, local: true) do |f| %>
 
   <div class="form-group">
-    <%= f.label :sender_id %>
 
-    <%= f.collection_select :sender_id, User.all, :id, :to_s, {}, class: "form-control" %>
+    <%= f.hidden_field :sender_id, value: current_user.id%>
   </div>
 
   <div class="form-group">
-    <%= f.label :recipient_id %>
-
-    <%= f.collection_select :recipient_id, User.all, :id, :to_s, {}, class: "form-control" %>
+    <% if sender.present? %>
+    <%= f.hidden_field :recipient_id, value: sender.id %>
+    <% else %>
+    <%= f.hidden_field :recipient_id, value: @item.seller_id%>
+    <% end %>
   </div>
 
   <%= f.hidden_field :item_id, value: @item.id %>
 
   <div class="form-group">
-    <%= f.label :body %>
+    <%= f.label :body, sender.present? ? "Respond to #{sender.name}" : "Body" %>
     <%= f.text_area :body, rows: "3", class: "form-control" %>
   </div>
 
-  <%= f.submit "Create message", class: "btn btn-block btn-outline-secondary" %>
+  <%= f.submit "Send message", class: "btn btn-block btn-outline-secondary" %>
 <% end %>

@@ -11,36 +11,65 @@
 </div>
 
 <div class="row">
-  <div class="col-md-12 mb-3">
+  <div class="col-md-3 mb-3">
     <%= render partial: "items/items_search_form" %>
+  </div>
+  <div class="col-md-9">
+    <table class="table">
+      <tr>
+        <th>
+
+        </th>
+
+        <th>
+          Title
+        </th>
+
+        <th>
+          Price
+        </th>
+
+        <th>
+          Category
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @items.each do |item| %>
+      <tr>
+        <td>
+          <img src="<%= item.image %>" width="80">
+        </td>
+
+        <td>
+          <%= item.title %>
+        </td>
+
+        <td>
+          <%= number_to_currency item.price %>
+        </td>
+
+        <td>
+          <%= item.category %>
+        </td>
+        <td>
+          <a href="/items/<%= item.id %>" class="btn btn-primary">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+    <div class="card-footer d-flex justify-content-center">
+      <%= paginate @items, theme: 'twitter-bootstrap-4' %>
+    </div>
   </div>
 </div>
 
-<div class="row mb-3">
-  <div class="col-md-12">
-    <%= render partial: "items/all_photos_map" %>
-  </div>
-</div>
 
 
 <div class="row justify-content-center mb-3">
-  <div class="col-md-8">
-    <div class="card">
-      <h1 class="card-header h4 d-flex align-items-center justify-content-between">
-        Items
 
-        <%= link_to new_item_path, class: "btn btn-sm btn-outline-secondary" do %>
-          <i class="fas fa-plus fa-fw"></i>
-        <% end %>
-      </h1>
-
-      <div class="list-group list-group-flush">
-        <%= render collection: @items, partial: "list_item", as: :item %>
-      </div>
-      <div class="card-footer d-flex justify-content-center">
-        <%= paginate @items, theme: 'twitter-bootstrap-4' %>
-      </div>
-
-    </div>
-  </div>
 </div>

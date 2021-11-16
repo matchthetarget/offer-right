@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show edit update destroy]
+  before_action :set_user, only: %i[show edit messages update destroy]
 
   def index
     @users = User.page(params[:page]).per(10)
@@ -8,6 +8,11 @@ class UsersController < ApplicationController
   def show
     @message = Message.new
     @item = Item.new
+  end
+
+  def messages
+    @sender= current_user
+    @recipient = @user
   end
 
   def new
@@ -46,6 +51,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:name)
+    params.require(:user).permit(:name, :phone_number)
   end
 end

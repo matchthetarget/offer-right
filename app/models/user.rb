@@ -22,7 +22,7 @@ class User < ApplicationRecord
              dependent: :destroy
 
   # Indirect associations
-
+  has_many :interested_items, through: :sent_messages, source: :item
   # Validations
 
   validates :name, presence: true
