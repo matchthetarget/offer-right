@@ -3,7 +3,7 @@ class ItemResource < ApplicationResource
   attribute :created_at, :datetime, writable: false
   attribute :updated_at, :datetime, writable: false
   attribute :title, :string
-  attribute :price, :string
+  attribute :price, :float
   attribute :seller_id, :integer
   attribute :description, :string
   attribute :category_id, :integer

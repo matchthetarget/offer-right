@@ -8,6 +8,10 @@ class ItemsController < ApplicationController
     @q = Item.ransack(params[:q])
     @items = @q.result(distinct: true).includes(:seller, :buyer, :messages,
                                                 :category).page(params[:page]).per(10)
+    @location_hash = Gmaps4rails.build_markers(@items.where.not(location_latitude: nil)) do |item, marker|
+      marker.lat item.location_latitude
+      marker.lng item.location_longitude
+    end
   end
 
   def show

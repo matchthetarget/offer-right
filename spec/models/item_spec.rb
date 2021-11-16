@@ -15,5 +15,10 @@ RSpec.describe Item, type: :model do
   end
 
   describe "Validations" do
+    it { should validate_presence_of(:image) }
+
+    it { should validate_presence_of(:price) }
+
+    it { should validate_presence_of(:title) }
   end
 end

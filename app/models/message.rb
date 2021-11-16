@@ -18,6 +18,6 @@ class Message < ApplicationRecord
   # Scopes
 
   def to_s
-    sender.to_s
+    body
   end
 end
