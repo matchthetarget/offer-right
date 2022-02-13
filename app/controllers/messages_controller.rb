@@ -24,7 +24,7 @@ class MessagesController < ApplicationController
         # redirect_back fallback_location: request.referer, notice: message
         redirect_to @message.sender, notice: message
       else
-        redirect_to @message, notice: message
+        redirect_to @message.sender, notice: message
       end
     else
       render :new

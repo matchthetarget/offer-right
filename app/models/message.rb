@@ -17,7 +17,7 @@ class Message < ApplicationRecord
 
   # Scopes
 
-  after_create_commit :notify_seller
+  # after_create_commit :notify_seller
 
   def notify_seller
   if sender.sent_messages.where(item: item).count == 1 && sender.phone_number.present?

@@ -1,28 +1,8 @@
 <% was_validated = message.errors.any? %>
 
 <%= form_with(model: message, local: true, novalidate: true, class: "mb-3") do |f| %>
-  <div class="form-group">
-    <% sender_class = "form-control" %>
-    <% sender_was_invalid = message.errors.include?(:sender) %>
 
-    <% if was_validated %>
-      <% if sender_was_invalid %>
-        <% sender_class << " is-invalid" %>
-      <% else %>
-        <% sender_class << " is-valid" %>
-      <% end %>
-    <% end %>
-
-    <%= f.label :sender_id %>
-    <%= f.collection_select :sender_id, User.all, :id, :to_s, {}, class: "form-control" %>
-    <% if sender_was_invalid %>
-      <% message.errors.full_messages_for(:sender).each do |message| %>
-        <div class="invalid-feedback d-flex">
-          <%= message %>
-        </div>
-      <% end %>
-    <% end %>
-  </div>
+  <%= f.hidden_field :sender_id, value: current_user.id %>
   <div class="form-group">
     <% recipient_class = "form-control" %>
     <% recipient_was_invalid = message.errors.include?(:recipient) %>
@@ -35,8 +15,8 @@
       <% end %>
     <% end %>
 
-    <%= f.label :recipient_id %>
-    <%= f.collection_select :recipient_id, User.all, :id, :to_s, {}, class: "form-control" %>
+    <%= f.label :recipient_id, "To:" %>
+    <%= f.collection_select :recipient_id, User.where(id: message.recipient_id), :id, :to_s, {}, class: "form-control" %>
     <% if recipient_was_invalid %>
       <% message.errors.full_messages_for(:recipient).each do |message| %>
         <div class="invalid-feedback d-flex">
@@ -58,7 +38,7 @@
     <% end %>
 
     <%= f.label :item_id %>
-    <%= f.collection_select :item_id, Item.all, :id, :to_s, {}, class: "form-control" %>
+    <%= f.collection_select :item_id, Item.where(id: message.item_id), :id, :to_s, {}, class: "form-control" %>
     <% if item_was_invalid %>
       <% message.errors.full_messages_for(:item).each do |message| %>
         <div class="invalid-feedback d-flex">
@@ -79,8 +59,8 @@
       <% end %>
     <% end %>
 
-    <%= f.label :body %>
-    <%= f.text_area :body, class: body_class, placeholder: "Enter body" %>
+    <%= f.label :body, "Message" %>
+    <%= f.text_area :body, class: body_class, placeholder: "Enter your message" %>
     <% if body_was_invalid %>
       <% message.errors.full_messages_for(:body).each do |message| %>
         <div class="invalid-feedback d-flex">
@@ -89,5 +69,5 @@
       <% end %>
     <% end %>
   </div>
-  <%= f.button class: "btn btn-outline-secondary btn-block" %>
+  <%= f.button "Send message", class: "btn btn-outline-secondary btn-block" %>
 <% end %>

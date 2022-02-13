@@ -47,7 +47,7 @@ class Item < ApplicationRecord
 
   # Scopes
 
-  after_update :notify_buyer
+  # after_update :notify_buyer
   def notify_seller
     twilio_sid = ENV.fetch("TWILIO_ACCOUNT_SID")
     twilio_token = ENV.fetch("TWILIO_AUTH_TOKEN")
