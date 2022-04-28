@@ -1,26 +1,38 @@
 <div class="card">
   <%= cl_image_tag @item.image, class: "img-fluid" %>
   <div class="card-body">
-    <h5 class="card-title"><%= item.title %> - <%= number_to_currency item.price %></h5>
+    <h5 class="card-title">
+      <%= item.title %> - <%= number_to_currency item.price %>
+    </h5>
+    
     <p class="card-text"><small class="text-muted">Posted <%= time_ago_in_words(item.created_at) %> ago</small></p>
-    <p class="card-text d-flex justify-content-between"><%= link_to item.category, item.category %>
-      <% if current_user == item.seller %>
-        <div>
-          <%= link_to edit_item_url(item), class: "btn btn-outline-secondary" do %>
-            <i class="fas fa-edit"></i>
-          <% end %>
-          <%= link_to item, method: :delete, data: { confirm: "Do you really want to delete this item?" }, class: "btn btn-outline-secondary" do %>
-            <i class="fas fa-trash-alt"></i>
-          <% end %>
-        </div>
+
+    <%= link_to item.category, item.category %>
+
+    <% if current_user == item.seller %>
+      <hr>
+      <div>
+        <%= link_to edit_item_url(item), class: "btn btn-outline-warning btn-block" do %>
+          <i class="fas fa-edit"></i> Edit listing
+        <% end %>
+
+        <%= link_to item, method: :delete, data: { confirm: "Do you really want to delete this item?" }, class: "btn btn-outline-danger btn-block" do %>
+          <i class="fas fa-trash-alt"></i> Delete listing
+        <% end %>
         <% if item.buyer.present? %>
-          <%= form_with(model: item, local: true, novalidate: true, class: "mb-3") do |f| %>
+          <hr>
+          <p class="mt-2 text-success">
+            <%= item.buyer.name %> has been marked as the buyer for this item!
+          </p>
+          <%= form_with(model: item, local: true, novalidate: true, class: "my-2") do |f| %>
             <%= f.hidden_field :buyer_id, value: nil %>
-            <%= f.button "Unmark #{item.buyer.name} as Buyer", class: "btn btn-outline-secondary" %>
+            <%= f.button class: "btn btn-outline-info btn-block" do %>
+              <i class="fas fa-ban"></i> Release item (unmark <%= item.buyer.name %> as buyer)
+            <% end %>
           <% end %>
         <% end %>
-      <% end %>
-    </p>
+      </div>
+    <% end %>
   </div>
   <div class="media my-4 mx-1">
     <img src="https://images.fandango.com/cms/assets/a2f0b9d0-cf84-11eb-a507-3be98bb99253--actordefaulttmb.gif" class="mr-3 rounded-circle" alt="user-profile-picture">
