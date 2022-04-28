@@ -15,55 +15,75 @@
     <%= render partial: "items/items_search_form" %>
   </div>
   <div class="col-md-9">
-    <table class="table">
-      <tr>
-        <th>
+    <div class="card">
+      <table class="table">
+        <tr>
+          <th>
 
-        </th>
+          </th>
 
-        <th>
-          Title
-        </th>
+          <th>
+            Title
+          </th>
 
-        <th>
-          Price
-        </th>
+          <th>
+            Price
+          </th>
 
-        <th>
-          Category
-        </th>
+          <th>
+            Category
+          </th>
 
-        <th>
-        </th>
-      </tr>
+          <th>
+            Seller
+          </th>
 
-      <% @items.each do |item| %>
-      <tr>
-        <td>
-          <img src="<%= item.image %>" width="80">
-        </td>
+          <th>
+          </th>
 
-        <td>
-          <%= item.title %>
-        </td>
+          <th>
+          </th>
+        </tr>
 
-        <td>
-          <%= number_to_currency item.price %>
-        </td>
+        <% @items.each do |item| %>
+        <tr>
+          <td>
+            <img src="<%= item.image %>" width="80">
+          </td>
 
-        <td>
-          <%= item.category %>
-        </td>
-        <td>
-          <a href="/items/<%= item.id %>" class="btn btn-primary">
-            Show details
-          </a>
-        </td>
-      </tr>
-      <% end %>
-    </table>
-    <div class="card-footer d-flex justify-content-center">
-      <%= paginate @items, theme: 'twitter-bootstrap-4' %>
+          <td>
+            <%= item.title %>
+          </td>
+
+          <td>
+            <%= number_to_currency item.price %>
+          </td>
+
+          <td>
+            <%= item.category %>
+          </td>
+
+          <td>
+            <%= item.seller.name %>
+          </td>
+
+          <td>
+            <% if item.buyer.present? %>
+              <span class="badge badge-success">Sold</span>
+            <% end %>
+          </td>
+
+          <td>
+            <a href="/items/<%= item.id %>" class="btn btn-primary">
+              Show details
+            </a>
+          </td>
+        </tr>
+        <% end %>
+      </table>
+      <div class="card-footer d-flex justify-content-center">
+        <%= paginate @items, theme: 'twitter-bootstrap-4' %>
+      </div>
     </div>
   </div>
 </div>

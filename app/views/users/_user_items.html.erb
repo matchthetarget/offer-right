@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-header d-flex align-items-center justify-content-between">
-    Items
+    Offered Items
     <% if current_user == @user %>
     <a data-toggle="collapse" href="#user_items_new_form">
       Add item
@@ -12,6 +12,10 @@
     <% @user.items.each do |item| %>
       <li class="list-group-item d-flex align-items-center justify-content-between">
         <%= link_to item, item %>
+
+        <% if item.buyer.present? %>
+          <span class="badge badge-success">Sold</span>
+        <% end %>
 
       </li>
     <% end %>
