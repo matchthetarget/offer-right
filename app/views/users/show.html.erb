@@ -42,13 +42,15 @@
           <ul class="list-group list-group-flush">
             <% @user.sent_messages.where(item: item, recipient: messager).or(@user.recieved_messages.where(item: item, sender: messager)).order(:id).each do |message| %>
               <li class="list-group-item">
-                <span class="badge badge-secondary">
-                  <% if message.sender == current_user %>
+                <% if message.sender == current_user %>
+                  <span class="badge badge-secondary">
                     you
-                  <% else %>
-                    <%= message.sender %>
-                  <% end %>
-                </span>
+                  </span>
+                <% else %>
+                  <span class="badge badge-light">
+                    <%= link_to message.sender.name, message.sender %>
+                  </span>
+                <% end %>
                 
                 <%= simple_format(message.body) %>
               </li>
