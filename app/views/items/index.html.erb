@@ -1,12 +1,16 @@
 <div class="row mb-3">
-  <div class="col-md-12">
-    <h1 class="display-4">
-      Items
+  <div class="col-md-12 d-flex justify-content-between align-items-center">
+    <div class="display-4">
+      Listings
+    </div>
 
-      <%= link_to new_item_path, class: "btn btn-lg btn-outline-secondary" do %>
-        <i class="fas fa-plus fa-fw"></i>
-      <% end %>
-    </h1>
+    <div>
+    <%= link_to new_item_path, class: "btn btn-lg btn-outline-secondary" do %>
+      <i class="fas fa-plus fa-fw"></i>
+
+      Add a listing
+    <% end %>
+    </div>
   </div>
 </div>
 

@@ -19,59 +19,73 @@
 <% messaged_items = @user.sent_messages.or(@user.recieved_messages).order(:id).pluck(:item_id).uniq%>
 <div class="row justify-content-center mb-3">
   <div class="col-md-8">
+    <hr>
+    <h4 class="mb-4">Conversations</h4>
     <% Item.where(id: messaged_items).each do |item| %>
       <% messaged_users_ids = @user.sent_messages.where(item: item).pluck(:recipient_id) + @user.recieved_messages.where(item: item).pluck(:sender_id) %>
 
       <% User.where(id: messaged_users_ids).each do |messager| %>
-        <h5><%= link_to item.title, item %> - <%= messager %></h5>
-        <ul class="list-group list-group-flush">
-          <% @user.sent_messages.where(item: item, recipient: messager).or(@user.recieved_messages.where(item: item, sender: messager)).order(:id).each do |message| %>
-            <li class="list-group-item">
-              <%= message.body %>
-              <br>
-              <div class="d-flex justify-content-between">
-              - <%= message.sender %>
-              <% if item.buyer.blank? && message.sender != item.seller && current_user == item.seller %>
-                <%= form_with(model: item, local: true, novalidate: true, class: "mb-3") do |f| %>
-                  <%= f.hidden_field :buyer_id, value: message.sender.id %>
-                  <%= f.button "Mark as Buyer", class: "btn btn-outline-secondary" %>
-                <% end %>
+        <div class="card mb-4">
+          <h5 class="card-header d-flex justify-content-between">
+            <div>
+              With <%= messager %> about <%= link_to item.title, item %>
+            </div>
+
+            <% if item.buyer.blank? && current_user == item.seller %>
+              <%= form_with(model: item, local: true, novalidate: true, class: "mb-3") do |f| %>
+                <%= f.hidden_field :buyer_id, value: messager.id %>
+                <%= f.button "Mark #{messager.name} as buyer", class: "btn btn-outline-secondary" %>
               <% end %>
-              </div>
-            </li>
-          <% end %>
-          <li class="list-group-item">
-            <%= form_with(model: Message.new, local: true, novalidate: true, class: "mb-3") do |f| %>
-
-              <%= f.hidden_field :sender_id, value: current_user.id %>
-              <%= f.hidden_field :item_id, value: item.id %>
-              <%= f.hidden_field :recipient_id, value: messager.id %>
-              <div class="form-group">
-                <% body_class = "form-control" %>
-                <% body_was_invalid = Message.new.errors.include?(:body) %>
-
-                <% if false %>
-                  <% if body_was_invalid %>
-                    <% body_class << " is-invalid" %>
-                  <% else %>
-                    <% body_class << " is-valid" %>
-                  <% end %>
-                <% end %>
-
-                <%= f.label :body, class: "sr-only" %>
-                <%= f.text_area :body, class: body_class, placeholder: "Respond to #{messager.name}" %>
-                <% if body_was_invalid %>
-                  <% message.errors.full_messages_for(:body).each do |message| %>
-                    <div class="invalid-feedback d-flex">
-                      <%= message %>
-                    </div>
-                  <% end %>
-                <% end %>
-              </div>
-              <%= f.button class: "btn btn-outline-secondary btn-block" %>
             <% end %>
-          </li>
-        </ul>
+          </h5>
+
+          <ul class="list-group list-group-flush">
+            <% @user.sent_messages.where(item: item, recipient: messager).or(@user.recieved_messages.where(item: item, sender: messager)).order(:id).each do |message| %>
+              <li class="list-group-item">
+                <span class="badge badge-secondary">
+                  <% if message.sender == current_user %>
+                    you
+                  <% else %>
+                    <%= message.sender %>
+                  <% end %>
+                </span>
+                
+                <%= simple_format(message.body) %>
+              </li>
+            <% end %>
+            <li class="list-group-item">
+              <%= form_with(model: Message.new, local: true, novalidate: true, class: "mb-3") do |f| %>
+
+                <%= f.hidden_field :sender_id, value: current_user.id %>
+                <%= f.hidden_field :item_id, value: item.id %>
+                <%= f.hidden_field :recipient_id, value: messager.id %>
+                <div class="form-group">
+                  <% body_class = "form-control" %>
+                  <% body_was_invalid = Message.new.errors.include?(:body) %>
+
+                  <% if false %>
+                    <% if body_was_invalid %>
+                      <% body_class << " is-invalid" %>
+                    <% else %>
+                      <% body_class << " is-valid" %>
+                    <% end %>
+                  <% end %>
+
+                  <%= f.label :body, class: "sr-only" %>
+                  <%= f.text_area :body, class: body_class, placeholder: "Respond to #{messager.name}" %>
+                  <% if body_was_invalid %>
+                    <% message.errors.full_messages_for(:body).each do |message| %>
+                      <div class="invalid-feedback d-flex">
+                        <%= message %>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+                <%= f.button "Send", class: "btn btn-outline-secondary btn-block" %>
+              <% end %>
+            </li>
+          </ul>
+        </div>
       <% end %>
     <% end %>
   </div>

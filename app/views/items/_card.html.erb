@@ -2,17 +2,17 @@
   <%= cl_image_tag @item.image, class: "img-fluid" %>
   <div class="card-body">
     <h5 class="card-title">
-      <%= item.title %> - <%= number_to_currency item.price %>
+      <%= item.title %>
     </h5>
-    
-    <p class="card-text d-flex justify-content-between">
-      <small class="text-muted">
-        Posted <%= time_ago_in_words(item.created_at) %> ago
-      </small>
 
-      <span class="badge badge-secondary">
-        <%= link_to item.category, item.category, class: "text-white" %>
-      </span>
+    <p>
+      Asking price:  <%= number_to_currency item.price %>
+    </p>
+    
+    <p class="card-text d-flex justify-content-between align-items-center">
+      <small class="text-muted">
+        Posted <%= time_ago_in_words(item.created_at) %> ago in <%= link_to item.category, item.category %>
+      </small>
     </p>
 
     <% if item.buyer.present? %>
@@ -45,17 +45,7 @@
         <% end %>
       </div>
     <% end %>
-  </div>
-  <div class="media my-4 mx-1">
-    <img src="https://images.fandango.com/cms/assets/a2f0b9d0-cf84-11eb-a507-3be98bb99253--actordefaulttmb.gif" class="mr-3 rounded-circle" alt="user-profile-picture">
-    <div class="media-body">
-      <%= link_to item.seller do %>
-        <h5 class="mt-0 d-flex justify-content-between pr-5 text-decoration-none"><%= item.seller %><i class="fas fa-chevron-right"></i></h5>
-        <p><small class="text-muted">Member since <%= item.seller.created_at.strftime("%B %Y") %></small></p>
-      <% end %>
-    </div>
-  </div>
-  <div class="card-body">
+
     <p><%= item.description %></p>
     <dt>Location</dt>
     <dd>
@@ -63,5 +53,15 @@
         <%= render partial: "items/one_photo_map" %>
       </div>
     </dd>
+    <div class="media my-4 mx-1">
+      <img src="https://images.fandango.com/cms/assets/a2f0b9d0-cf84-11eb-a507-3be98bb99253--actordefaulttmb.gif" class="mr-3 rounded-circle" alt="user-profile-picture">
+      <div class="media-body">
+        <%= link_to item.seller do %>
+          <h5 class="mt-0 d-flex justify-content-between pr-5 text-decoration-none">
+          <span>Seller: <%= item.seller %></span>
+          <p><small class="text-muted">Member since <%= item.seller.created_at.strftime("%B %Y") %></small></p>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

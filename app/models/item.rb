@@ -23,7 +23,7 @@ class Item < ApplicationRecord
 
   # Direct associations
 
-  belongs_to :category
+  belongs_to :category, touch: true
 
   has_many   :messages,
              dependent: :destroy
@@ -52,39 +52,40 @@ class Item < ApplicationRecord
     twilio_sid = ENV.fetch("TWILIO_ACCOUNT_SID")
     twilio_token = ENV.fetch("TWILIO_AUTH_TOKEN")
     twilio_sending_number = ENV.fetch("TWILIO_SENDING_NUMBER")
-    
+
     # Create an instance of the Twilio Client and authenticate with your API key
     twilio_client = Twilio::REST::Client.new(twilio_sid, twilio_token)
-    
+
     # Craft your SMS as a Hash with three keys
     sms_parameters = {
-      :from => twilio_sending_number,
-      :to => seller.phone_number,
-      :body => "Someone messaged you about your item: #{title}."
+      from: twilio_sending_number,
+      to: seller.phone_number,
+      body: "Someone messaged you about your item: #{title}.",
     }
-    
+
     # Send your SMS!
     twilio_client.api.account.messages.create(sms_parameters)
   end
 
   def notify_buyer
     return false if buyer.blank? || buyer.phone_number.blank?
+
     p "sending"
     if buyer_id_changed? && buyer.present?
       twilio_sid = ENV.fetch("TWILIO_ACCOUNT_SID")
       twilio_token = ENV.fetch("TWILIO_AUTH_TOKEN")
       twilio_sending_number = ENV.fetch("TWILIO_SENDING_NUMBER")
-      
+
       # Create an instance of the Twilio Client and authenticate with your API key
       twilio_client = Twilio::REST::Client.new(twilio_sid, twilio_token)
-      
+
       # Craft your SMS as a Hash with three keys
       sms_parameters = {
-        :from => twilio_sending_number,
-        :to => buyer.phone_number,
-        :body => "#{seller.name} accepted your purchase of: #{title}."
+        from: twilio_sending_number,
+        to: buyer.phone_number,
+        body: "#{seller.name} accepted your purchase of: #{title}.",
       }
-      
+
       # Send your SMS!
       twilio_client.api.account.messages.create(sms_parameters)
     end

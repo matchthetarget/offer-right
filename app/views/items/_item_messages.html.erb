@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-header d-flex align-items-center justify-content-between">
-    Contact
+    Contact <%= @item.seller.name %> in order to purchase
   </div>
 
   <div class="card-footer">
@@ -22,7 +22,7 @@
         <% end %>
 
         <%= f.label :body, class: "sr-only" %>
-        <%= f.text_area :body, class: body_class, placeholder: "Contact #{@item.seller.name}" %>
+        <%= f.text_area :body, class: body_class, placeholder: "Message #{@item.seller.name}" %>
         <% if body_was_invalid %>
           <% message.errors.full_messages_for(:body).each do |message| %>
             <div class="invalid-feedback d-flex">

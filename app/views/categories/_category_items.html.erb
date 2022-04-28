@@ -1,28 +1,23 @@
 <div class="card">
   <div class="card-header d-flex align-items-center justify-content-between">
-    Items
-
+    <h4><%= @category.name %></h4>
+    <div class="text-muted">Last updated <%= time_ago_in_words(@category.updated_at) %> ago</div>
   </div>
-
   <ul class="list-group list-group-flush">
     <% @category.items.each do |item| %>
       <li class="list-group-item d-flex align-items-center justify-content-between">
         <%= link_to item, item %>
-
         <% if current_user == item.seller %>
           <%= link_to item, method: :delete do %>
             <i class="fas fa-trash-alt"></i>
           <% end %>
         <% end %>
-
       </li>
     <% end %>
-
     <div class="card-footer">
       <div class="collapse" id="category_items_new_form">
         <%= render partial: "categories/category_items_new_form" %>
       </div>
     </div>
-
   </ul>
 </div>
